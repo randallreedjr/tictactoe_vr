@@ -178,6 +178,11 @@ class Board
 			@builder["label5"].text = 'Cannot undo winning move'
 		end
 	end
+
+	def imagemenuitem10__activate(*argv)
+		modal_win = ModalWindow.new 
+		modal_win.show(self)
+	end
 	
 	def button1__clicked(*argv)
 		if makemove(1) and @tictactoe.player2.type == 'computer' then
