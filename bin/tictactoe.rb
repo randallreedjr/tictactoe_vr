@@ -45,8 +45,8 @@ class TicTacToe
     def SelectPlayers(numplayers)
         if @movenum == 0 or @winner != '' then
             if numplayers == 1
-                @player1 = Player.new('human', 'Player','X')
-                @player2 = Player.new('computer', 'Computer','O')
+                @player1 = Player.new('human','Player','X')
+                @player2 = Player.new('computer','Computer','O')
                 @cat = Player.new('cat', 'Cat', 'C')
             elsif numplayers == 2
                 @player1 = Player.new('human', 'Player 1','X')
@@ -155,8 +155,6 @@ class TicTacToe
 			end
 		end
 
-		
-
 		def GetLastMove()
 			return @lastmoveindex
 		end
@@ -196,7 +194,7 @@ class TicTacToe
         end
     end
 
- def ShowComputerMove(move)
+ 		def ShowComputerMove(move)
         #Need to increment index to match normal layout
         if @keyboard
             movestring = @keyboardboard[move]
@@ -217,7 +215,7 @@ class TicTacToe
         else
             row = lastmoveindex / 3
             #Determine row to check using integer division
-            if (row == 0 and CheckWinTopRow()) or (row ==1 and CheckWinCenterRow()) or (row == 2 and CheckWinBottomRow())
+            if (row == 0 and CheckWinTopRow()) or (row == 1 and CheckWinCenterRow()) or (row == 2 and CheckWinBottomRow())
 								@winner = @currentturn
 						end
             
@@ -229,15 +227,13 @@ class TicTacToe
             
             if lastmoveindex % 2 == 0
                 #Determine diagonals to check
-                if lastmoveindex != 4 and lastmoveindex % 4 == 2
+                if lastmoveindex % 4 == 2
                     if CheckWinBottomLeftToTopRight() then @winner = @currentturn end
                 elsif lastmoveindex != 4 and lastmoveindex %4 == 0
                     if CheckWinTopLeftToBottomRight() then @winner = @currentturn end
                 elsif lastmoveindex == 4
-                    if CheckWinTopLeftToBottomRight() 
+                    if CheckWinTopLeftToBottomRight() or CheckWinBottomLeftToTopRight()
 											@winner = @currentturn   
-                    elsif CheckWinBottomLeftToTopRight() 
-											@winner = @currentturn 
 										end
                 end
             end
@@ -255,6 +251,7 @@ class TicTacToe
 private
 
 		def ComputerMoveX()
+
 			if @difficulty == 'easy'
         #Easy computer moves randomly
         move = RandomMove()
@@ -268,7 +265,7 @@ private
 				    if move == -1
 					 		#No winning move available, try block next
 							move = FindBlockingMove()
-							if move == -1 then
+							if move == -1
 					    	move = RandomMove()
 							end
 				    end
@@ -304,8 +301,8 @@ private
 						end
 					end
 				end
-				return move + 1
 			end
+			return move + 1
 		end
    
     def ComputerMoveO()
@@ -412,7 +409,7 @@ private
         for i in 0..8
             if @board[i] == '_'
                 @board[i] = @player1.mark
-                #CheckWinner returns currentturn, so it will still be O
+                #CheckWinner returns currentturn, so it will still be player2
                 if CheckWinner(i+1) == @player2.mark
                     @board[i] = '_'
 										@winner = ''
@@ -432,9 +429,7 @@ private
         end
         return move
     end
-    
-   
-    
+       
     def CheckWinLeftColumn()
 		#[0 _ _]
 		#[3 _ _]
@@ -442,7 +437,6 @@ private
         return ((@board[0] == @board[3]) and (@board[0] == @board[6]))
     end
     
-
     def CheckWinMiddleColumn()
 		#[_ 1 _]
 		#[_ 4 _]

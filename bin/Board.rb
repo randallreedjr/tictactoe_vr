@@ -29,7 +29,9 @@ class Board
 		if @tictactoe.player2.type != 'human'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(2)
+
 				if @tictactoe.winner != '' then newgame() end
+
 				#clear all difficulty selectors
 				@builder["checkbutton1"].active = false
 				@builder["checkbutton2"].active = false
@@ -56,8 +58,10 @@ class Board
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(1)
 				if @tictactoe.winner != '' then newgame() end
+
 				#select easy difficulty by default
 				@builder["checkbutton1"].active = true
+
 				#update player names
 				@builder["label4"].text = @tictactoe.player1.name
 				@builder["label3"].text = @tictactoe.player2.name
