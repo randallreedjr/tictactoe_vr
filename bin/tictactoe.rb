@@ -3,13 +3,9 @@ class TicTacToe
     #Read access to some class variables
     attr_reader :winner
     attr_reader :movenum
-    attr_reader :playagain
-    attr_reader :exit
-    attr_reader :keyboard
     attr_reader :player1
     attr_reader :player2
     attr_reader :cat
-		attr_reader :board
 		attr_reader :currentturn
 		attr_reader :difficulty
     
@@ -17,22 +13,12 @@ class TicTacToe
         #Set starting values for class variables
         #@board = ['_','_','_','_','_','_','_','_','_']
         @board = Array.new(9,'_')
-        #layout if choosing keyboard option
-        @keyboardboard = ['Q','W','E','A','S','D','Z','X','C']
-        #layout if using number pad option
-        @numpadboard = ['7','8','9','4','5','6','1','2','3']
-        #layout if using default number option
-        @defaultboard = ['1','2','3','4','5','6','7','8','9']
         #Keep track of current player
         @currentturn = 'X'
         @winner = ''
         @movenum = 0
         @lastmoveindex = -1
         @penultimatemoveindex = -1
-        @exit = false
-        @keyboard = false
-        @numpad = false
-        @playagain = true
         @difficulty = 'easy'
         @movesuccess = false
         @alternate = true
@@ -54,11 +40,6 @@ class TicTacToe
         else
             return player2.name + ' (X) goes first'
         end
-    end
-    
-    def ShowHelp
-        puts "alternateon - switch first player after each two player game"
-        puts "alternateoff - do not switch players after each two player game"
     end
 
     def SelectPlayers(numplayers)
@@ -82,11 +63,7 @@ class TicTacToe
     def SwapPlayers
         @player1.SwapMark()
         @player2.SwapMark()
-    end
-    
-    def ShowScore    
-        puts @player1.name + ": " + @player1.score.to_s + ", " + @player2.name + ": " + @player2.score.to_s + ", " + @cat.name + ": " + @cat.score.to_s
-    end
+    end 
     
     def UpdateScore(winner)
         #Add a point to the winning player's score
@@ -120,29 +97,6 @@ class TicTacToe
 			end
 		end
        
-    def ExecuteCommand(command)
-				case command.downcase
-            when 'alternateon'
-                if not @alternate
-                    puts "Players will now alternate in 2 player games"
-                    @alternate = true
-                else
-                    puts "Players are already alternating in 2 player games"
-                end
-            when 'alternateoff'
-                if @alternate
-                    puts "Players will no longer alternate in 2 player games"
-                    @alternate = false
-                else
-                    puts "Players already are not alternating in 2 player games"
-                end
-        end
-    end
-
-		def PrintBoard
-			return @board[0]+@board[1]+@board[2]+@board[3]+@board[4]+@board[5]+@board[6]+@board[7]+@board[8]
-		end
-        
     #Print outcome of game to players
     def PrintWinner
         if @winner == 'C'
@@ -186,7 +140,6 @@ class TicTacToe
 
             #Increment move counter
             @movenum += 1
-
             @movesuccess = true
         else
             #Do not allow player to choose space that has already been played
@@ -454,66 +407,59 @@ class TicTacToe
     end
     
     def CheckWinLeftColumn()
-        if (@board[0] == @board[3]) and (@board[0] == @board[6])
-            return true
-        else
-            return false
-        end
+		#[0 _ _]
+		#[3 _ _]
+		#[6 _ _]
+        return ((@board[0] == @board[3]) and (@board[0] == @board[6]))
     end
     
+
     def CheckWinMiddleColumn()
-        if (@board[4] == @board[1]) and (@board[4] == @board[7]) 
-            return true
-        else
-            return false
-        end 
+		#[_ 1 _]
+		#[_ 4 _]
+		#[_ 7 _]
+        return ((@board[4] == @board[1]) and (@board[4] == @board[7]))
     end
     
     def CheckWinRightColumn()
-        if (@board[8] == @board[2]) and (@board[8] == @board[5])
-            return true
-        else
-            return false
-        end
+		#[_ _ 2]
+		#[_ _ 5]
+		#[_ _ 8]
+        return ((@board[8] == @board[2]) and (@board[8] == @board[5]))
     end
     
     def CheckWinTopRow()
-        if (@board[0] == @board[1]) and (@board[0] == @board[2])
-            return true
-        else
-            return false
-        end
+		#[0 1 2]
+		#[_ _ _]
+		#[_ _ _]
+        return ((@board[0] == @board[1]) and (@board[0] == @board[2]))
     end
     
     def CheckWinCenterRow()
-        if (@board[4] == @board[3]) and (@board[4] == @board[5]) 
-            return true
-        else
-            return false
-        end
+		#[_ _ _]
+		#[3 4 5]
+		#[_ _ _]
+        return ((@board[4] == @board[3]) and (@board[4] == @board[5]))
     end
     
     def CheckWinBottomRow()
-        if (@board[8] == @board[7]) and (@board[8] == @board[6])
-            return true
-        else
-            return false
-        end
+		#[_ _ _]
+		#[_ _ _]
+		#[6 7 8]
+        return ((@board[8] == @board[7]) and (@board[8] == @board[6]))
     end
     
     def CheckWinTopLeftToBottomRight()
-        if (@board[4] == @board[0]) and (@board[4] == @board[8])
-            return true
-        else
-            return false
-        end
+		#[0 _ _]
+		#[_ 4 _]
+		#[_ _ 8]
+        return ((@board[4] == @board[0]) and (@board[4] == @board[8]))
     end
     
     def CheckWinBottomLeftToTopRight()
-        if (@board[4] == @board[2]) and (@board[4] == @board[6])
-            return true
-        else
-            return false
-        end
+		#[_ _ 2]
+		#[_ 4 _]
+		#[6 _ _]
+        return ((@board[4] == @board[2]) and (@board[4] == @board[6]))
     end
 end

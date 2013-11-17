@@ -7,12 +7,13 @@ backup_path: C:/Users/Randall
 tab_spaces: 2
 run_command_line: ruby main.rb
 open_files:
-- C:/Users/Randall/visualruby/tictactoe/Untitled
+- C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
+- C:/Users/Randall/visualruby/tictactoe/bin/Board.rb
 open_folders:
 - C:/Users/Randall/visualruby/tictactoe
 - C:/Users/Randall/visualruby/tictactoe/bin
 - C:/Users/Randall/visualruby/tictactoe/bin/glade
-current_file: C:/Users/Randall/visualruby/tictactoe/Untitled
+current_file: C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
 glade_path: glade-3
 font_name: Monospace 10
 rdoc_command_line: rdoc -x README
