@@ -13,7 +13,7 @@ open_folders:
 - C:/Users/Randall/visualruby/tictactoe
 - C:/Users/Randall/visualruby/tictactoe/bin
 - C:/Users/Randall/visualruby/tictactoe/bin/glade
-current_file: C:/Users/Randall/visualruby/tictactoe/bin/Board.rb
+current_file: C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
 glade_path: glade-3
 font_name: Monospace 10
 rdoc_command_line: rdoc -x README

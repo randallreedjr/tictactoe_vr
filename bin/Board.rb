@@ -1,9 +1,6 @@
-
-
 class Board
 
 	include GladeGUI
-
 
 	def show()
 		@path = File.dirname(__FILE__) + "/"
@@ -18,8 +15,9 @@ class Board
 		@image7 = @path + "blank.jpg"
 		@image8 = @path + "blank.jpg"
 		@image9 = @path + "blank.jpg"
-@label1 = "Welcome to Tic Tac Toe"
-	@images = { 'X' => "x.jpg", 'O' => "o.jpg" }
+		@label1 = "Welcome to Tic Tac Toe"
+		#array to store image names; this will make updating the board easier
+		@images = { 'X' => "x.jpg", 'O' => "o.jpg" }
 		set_glade_all() #populates glade controls with insance variables (i.e. Myclass.label1) 
 
 		newmatch()
@@ -175,60 +173,56 @@ class Board
 	
 	def button1__clicked(*argv)
 		if makemove(1) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button2__clicked(*argv)
 		if makemove(2) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button3__clicked(*argv)
 		if makemove(3) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button4__clicked(*argv)
 		if makemove(4) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button5__clicked(*argv)
 		if makemove(5) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button6__clicked(*argv)
 		if makemove(6) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button7__clicked(*argv)
 		if makemove(7) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button8__clicked(*argv)
 		if makemove(8) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
 	end
 
 	def button9__clicked(*argv)
 		if makemove(9) and @tictactoe.player2.type == 'computer' then
-			#computermove()
+			computermove()
 		end
-	end
-
-	def button10__clicked(*argv)
-		computermove()
 	end
 
 	def makemove(space)
@@ -243,7 +237,6 @@ class Board
 			end
 			return true
 		else
-			@builder["label5"].text = space.to_s + ' not available: ' + @tictactoe.PrintBoard() + ' ' + @tictactoe.winner
 			return false
 		end
 	end
