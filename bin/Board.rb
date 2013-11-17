@@ -24,21 +24,6 @@ class Board
 		show_window() 
 	end	
 
-	def newmatch()
-		@tictactoe = TicTacToe.new()
-		@tictactoe.SelectPlayers(2)
-		@builder["label4"].text = @tictactoe.player1.name
-		@builder["label8"].text = @tictactoe.player1.score.to_s
-
-		@builder["label3"].text = @tictactoe.player2.name
-		@builder["label7"].text = @tictactoe.player2.score.to_s
-
-		@builder["label2"].text = @tictactoe.cat.name
-		@builder["label6"].text = @tictactoe.cat.score.to_s
-
-		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
-	end
-
 	#Human opponent
 	def radiobutton1__clicked(*argv)
 		if @tictactoe.player2.type != 'human'
@@ -54,6 +39,9 @@ class Board
 				@builder["label4"].text = @tictactoe.player1.name
 				@builder["label3"].text = @tictactoe.player2.name
 				@builder["label5"].text = 'Now playing human. ' + @tictactoe.PrintInstructions()
+
+				#clear and update scores
+				ResetScore()
 			else
 				#toggle back
 				@builder["radiobutton2"].active = true
@@ -73,6 +61,9 @@ class Board
 				#update player names
 				@builder["label4"].text = @tictactoe.player1.name
 				@builder["label3"].text = @tictactoe.player2.name
+
+				#clear and update scores
+				ResetScore()
 			else
 				#toggle back
 				@builder["radiobutton1"].active = true
@@ -132,32 +123,15 @@ class Board
 		end
 	end
 
+	#Menu options
 	def imagemenuitem1__activate(*argv)
 		#Game -> New
 		newgame()
 	end
 
-	def newgame()
-		@tictactoe.Reset()
-		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
-		@builder["image1"].file = @path + "blank.jpg"
-		@builder["image2"].file = @path + "blank.jpg"
-		@builder["image3"].file = @path + "blank.jpg"
-		@builder["image4"].file = @path + "blank.jpg"
-		@builder["image5"].file = @path + "blank.jpg"
-		@builder["image6"].file = @path + "blank.jpg"
-		@builder["image7"].file = @path + "blank.jpg"
-		@builder["image8"].file = @path + "blank.jpg"
-		@builder["image9"].file = @path + "blank.jpg"
-		if @tictactoe.player2.type == 'computer' and @tictactoe.player2.mark == 'X' then computermove() end
-	end
-
 	def imagemenuitem2__activate(*argv)
 		#Game -> Reset score
-		@tictactoe.ClearScore()
-		@builder["label8"].text = @tictactoe.player1.score.to_s
-		@builder["label7"].text = @tictactoe.player2.score.to_s
-		@builder["label6"].text = @tictactoe.cat.score.to_s
+		ResetScore()
 	end
 
 	def imagemenuitem5__activate(*argv)
@@ -185,10 +159,12 @@ class Board
 	end
 
 	def imagemenuitem10__activate(*argv)
+		#Help -> About
 		modal_win = ModalWindow.new 
 		modal_win.show(self)
 	end
 	
+	#Move buttons 1 - 9
 	def button1__clicked(*argv)
 		if makemove(1) and @tictactoe.player2.type == 'computer' then
 			computermove()
@@ -241,6 +217,46 @@ class Board
 		if makemove(9) and @tictactoe.player2.type == 'computer' then
 			computermove()
 		end
+	end
+
+
+private
+
+	def newmatch()
+		@tictactoe = TicTacToe.new()
+		@tictactoe.SelectPlayers(2)
+		@builder["label4"].text = @tictactoe.player1.name
+		@builder["label8"].text = @tictactoe.player1.score.to_s
+
+		@builder["label3"].text = @tictactoe.player2.name
+		@builder["label7"].text = @tictactoe.player2.score.to_s
+
+		@builder["label2"].text = @tictactoe.cat.name
+		@builder["label6"].text = @tictactoe.cat.score.to_s
+
+		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
+	end
+
+	def newgame()
+		@tictactoe.Reset()
+		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
+		@builder["image1"].file = @path + "blank.jpg"
+		@builder["image2"].file = @path + "blank.jpg"
+		@builder["image3"].file = @path + "blank.jpg"
+		@builder["image4"].file = @path + "blank.jpg"
+		@builder["image5"].file = @path + "blank.jpg"
+		@builder["image6"].file = @path + "blank.jpg"
+		@builder["image7"].file = @path + "blank.jpg"
+		@builder["image8"].file = @path + "blank.jpg"
+		@builder["image9"].file = @path + "blank.jpg"
+		if @tictactoe.player2.type == 'computer' and @tictactoe.player2.mark == 'X' then computermove() end
+	end
+
+	def ResetScore()
+		@tictactoe.ClearScore()
+		@builder["label8"].text = @tictactoe.player1.score.to_s
+		@builder["label7"].text = @tictactoe.player2.score.to_s
+		@builder["label6"].text = @tictactoe.cat.score.to_s
 	end
 
 	def makemove(space)

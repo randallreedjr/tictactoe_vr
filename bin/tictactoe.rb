@@ -155,6 +155,105 @@ class TicTacToe
 			end
 		end
 
+		
+
+		def GetLastMove()
+			return @lastmoveindex
+		end
+
+		def GetPenultimateMove()
+			return @penultimatemoveindex
+		end
+    
+    def UndoMove()
+        if @lastmoveindex == -1
+            return "Move cannot be undone"
+        else
+            if @player2.type=='computer'
+                #Undo computer and player move
+                #Clear 2 moves from board
+                @board[@lastmoveindex] = '_'
+                @board[@penultimatemoveindex] = '_'
+                @lastmoveindex = -1
+                @penultimatemoveindex = -1
+                @movenum -= 2
+            else
+                #Undo player move only
+                #Clear move
+                @board[@lastmoveindex] = '_'
+                @lastmoveindex = -1
+                #Decrement move counter
+                @movenum -= 1
+                
+                #Toggle current player
+                if @currentturn == 'X'
+                    @currentturn = 'O'
+                else
+                    @currentturn = 'X'
+                end
+            end
+            return "Move undone"
+        end
+    end
+
+ def ShowComputerMove(move)
+        #Need to increment index to match normal layout
+        if @keyboard
+            movestring = @keyboardboard[move]
+        elsif @numpad
+            movestring = @numpadboard[move]
+        else
+            movestring = (move+1).to_s
+        end
+        return "Computer chooses " + movestring
+    end
+    
+    def CheckWinner(lastmove)
+				lastmoveindex = lastmove - 1
+        if @movenum < 3
+            #Game cannot end in less than 5 moves
+            #However, computer uses this to check for blocks on move 4
+            return ''
+        else
+            row = lastmoveindex / 3
+            #Determine row to check using integer division
+            if (row == 0 and CheckWinTopRow()) or (row ==1 and CheckWinCenterRow()) or (row == 2 and CheckWinBottomRow())
+								@winner = @currentturn
+						end
+            
+            column = lastmoveindex % 3
+            #Determine column to check
+            if (column == 0 and CheckWinLeftColumn()) or (column == 1 and CheckWinMiddleColumn()) or (column == 2 and CheckWinRightColumn())
+								@winner = @currentturn
+						end
+            
+            if lastmoveindex % 2 == 0
+                #Determine diagonals to check
+                if lastmoveindex != 4 and lastmoveindex % 4 == 2
+                    if CheckWinBottomLeftToTopRight() then @winner = @currentturn end
+                elsif lastmoveindex != 4 and lastmoveindex %4 == 0
+                    if CheckWinTopLeftToBottomRight() then @winner = @currentturn end
+                elsif lastmoveindex == 4
+                    if CheckWinTopLeftToBottomRight() 
+											@winner = @currentturn   
+                    elsif CheckWinBottomLeftToTopRight() 
+											@winner = @currentturn 
+										end
+                end
+            end
+        end
+
+        if @movenum == 9 and @winner == ''
+            #Game over, no winner; cat's game
+						@winner = 'C'
+        end
+
+				return @winner
+    end
+
+
+private
+
 		def ComputerMoveX()
 			if @difficulty == 'easy'
         #Easy computer moves randomly
@@ -167,11 +266,11 @@ class TicTacToe
 				    #Check for winning move first
 				    move = FindWinningMove()
 				    if move == -1
-					 #No winning move available, try block next
-					move = FindBlockingMove()
-					if move == -1 then
-					    move = RandomMove()
-					end
+					 		#No winning move available, try block next
+							move = FindBlockingMove()
+							if move == -1 then
+					    	move = RandomMove()
+							end
 				    end
 				end
 			elsif @difficulty == 'hard'
@@ -206,10 +305,7 @@ class TicTacToe
 					end
 				end
 				return move + 1
-			else
 			end
-
-
 		end
    
     def ComputerMoveO()
@@ -294,45 +390,6 @@ class TicTacToe
 						return (move+1)
         end
     end
-
-		def GetLastMove()
-			return @lastmoveindex
-		end
-
-		def GetPenultimateMove()
-			return @penultimatemoveindex
-		end
-    
-    def UndoMove()
-        if @lastmoveindex == -1
-            return "Move cannot be undone"
-        else
-            if @player2.type=='computer'
-                #Undo computer and player move
-                #Clear 2 moves from board
-                @board[@lastmoveindex] = '_'
-                @board[@penultimatemoveindex] = '_'
-                @lastmoveindex = -1
-                @penultimatemoveindex = -1
-                @movenum -= 2
-            else
-                #Undo player move only
-                #Clear move
-                @board[@lastmoveindex] = '_'
-                @lastmoveindex = -1
-                #Decrement move counter
-                @movenum -= 1
-                
-                #Toggle current player
-                if @currentturn == 'X'
-                    @currentturn = 'O'
-                else
-                    @currentturn = 'X'
-                end
-            end
-            return "Move undone"
-        end
-    end
     
     def FindWinningMove()
         #Pretend O went in any available square and check for win
@@ -376,60 +433,7 @@ class TicTacToe
         return move
     end
     
-    def ShowComputerMove(move)
-        #Need to increment index to match normal layout
-        if @keyboard
-            movestring = @keyboardboard[move]
-        elsif @numpad
-            movestring = @numpadboard[move]
-        else
-            movestring = (move+1).to_s
-        end
-        return "Computer chooses " + movestring
-    end
-    
-    def CheckWinner(lastmove)
-				lastmoveindex = lastmove - 1
-        if @movenum < 3
-            #Game cannot end in less than 5 moves
-            #However, computer uses this to check for blocks on move 4
-            return ''
-        else
-            row = lastmoveindex / 3
-            #Determine row to check using integer division
-            if (row == 0 and CheckWinTopRow()) or (row ==1 and CheckWinCenterRow()) or (row == 2 and CheckWinBottomRow())
-								@winner = @currentturn
-						end
-            
-            column = lastmoveindex % 3
-            #Determine column to check
-            if (column == 0 and CheckWinLeftColumn()) or (column == 1 and CheckWinMiddleColumn()) or (column == 2 and CheckWinRightColumn())
-								@winner = @currentturn
-						end
-            
-            if lastmoveindex % 2 == 0
-                #Determine diagonals to check
-                if lastmoveindex != 4 and lastmoveindex % 4 == 2
-                    if CheckWinBottomLeftToTopRight() then @winner = @currentturn end
-                elsif lastmoveindex != 4 and lastmoveindex %4 == 0
-                    if CheckWinTopLeftToBottomRight() then @winner = @currentturn end
-                elsif lastmoveindex == 4
-                    if CheckWinTopLeftToBottomRight() 
-											@winner = @currentturn   
-                    elsif CheckWinBottomLeftToTopRight() 
-											@winner = @currentturn 
-										end
-                end
-            end
-        end
-
-        if @movenum == 9 and @winner == ''
-            #Game over, no winner; cat's game
-						@winner = 'C'
-        end
-
-				return @winner
-    end
+   
     
     def CheckWinLeftColumn()
 		#[0 _ _]
