@@ -326,6 +326,7 @@ class TicTacToe
                 @board[i] = 'O'
                 if CheckWinner(i+1) == 'O'
                     @board[i] = '_'
+										@winner = ''
                     return i
                 end
                 @board[i] = '_'
@@ -342,6 +343,7 @@ class TicTacToe
                 #CheckWinner returns currentturn, so it will still be O
                 if CheckWinner(i+1) == 'O'
                     @board[i] = '_'
+										@winner = ''
                     return i
                 end
                 @board[i] = '_'

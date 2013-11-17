@@ -41,8 +41,8 @@ class Board
 		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
 	end
 
+	#Human opponent
 	def radiobutton1__clicked(*argv)
-		#human opponent
 		if @tictactoe.player2.type != 'human'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(2)
@@ -50,7 +50,7 @@ class Board
 				@builder["checkbutton1"].active = false
 				@builder["checkbutton2"].active = false
 				@builder["checkbutton3"].active = false
-				@builder["label5"].text = 'Now playing human'
+				@builder["label5"].text = 'Now playing human. ' + @tictactoe.PrintInstructions()
 			else
 				#toggle back
 				@builder["radiobutton2"].active = true
@@ -59,8 +59,8 @@ class Board
 		end
 	end
 
+	#Computer opponent
 	def radiobutton2__clicked(*argv)
-		#computer opponent
 		if @tictactoe.player2.type != 'computer'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(1)
@@ -75,15 +75,16 @@ class Board
 		end
 	end
 
-	#Only allow player to select difficulty if opponent is computer
+	#Easy difficulty
 	def checkbutton1__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
+			#Only allow player to select difficulty if opponent is computer
 			@builder["checkbutton1"].active = false
 		elsif @builder["checkbutton1"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton2"].active = false
 			@builder["checkbutton3"].active = false
 			@tictactoe.SetDifficulty('easy')
-			@builder["label5"].text = 'Now playing computer on easy'
+			@builder["label5"].text = 'Now playing computer on easy. '+ @tictactoe.PrintInstructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
 			@builder["checkbutton1"].active = (@tictactoe.difficulty == 'easy')
@@ -91,14 +92,16 @@ class Board
 		end
 	end
 
+	#Normal difficulty
 	def checkbutton2__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
+			#Only allow player to select difficulty if opponent is computer
 			@builder["checkbutton2"].active = false
 		elsif @builder["checkbutton2"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton3"].active = false
 			@tictactoe.SetDifficulty('normal')
-			@builder["label5"].text = 'Now playing computer on normal'
+			@builder["label5"].text = 'Now playing computer on normal. '+ @tictactoe.PrintInstructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
 			@builder["checkbutton2"].active = (@tictactoe.difficulty == 'normal')
@@ -106,14 +109,16 @@ class Board
 		end
 	end
 
+	#Hard difficulty
 	def checkbutton3__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
+			#Only allow player to select difficulty if opponent is computer
 			@builder["checkbutton3"].active = false
 		elsif @builder["checkbutton3"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton2"].active = false
 			@tictactoe.SetDifficulty('hard')
-			@builder["label5"].text = 'Now playing computer on hard'
+			@builder["label5"].text = 'Now playing computer on hard. '+ @tictactoe.PrintInstructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
 			@builder["checkbutton3"].active = (@tictactoe.difficulty == 'hard')
@@ -222,7 +227,7 @@ class Board
 		end
 	end
 
-	def button10_clicked(*argv)
+	def button10__clicked(*argv)
 		computermove()
 	end
 
