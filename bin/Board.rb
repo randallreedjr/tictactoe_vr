@@ -27,14 +27,14 @@ class Board
 	def newmatch()
 		@tictactoe = TicTacToe.new()
 		@tictactoe.SelectPlayers(2)
-		@builder["label2"].text = @tictactoe.player1.name
-		@builder["label6"].text = @tictactoe.player1.score.to_s
+		@builder["label4"].text = @tictactoe.player1.name
+		@builder["label8"].text = @tictactoe.player1.score.to_s
 
 		@builder["label3"].text = @tictactoe.player2.name
 		@builder["label7"].text = @tictactoe.player2.score.to_s
 
-		@builder["label4"].text = @tictactoe.cat.name
-		@builder["label8"].text = @tictactoe.cat.score.to_s
+		@builder["label2"].text = @tictactoe.cat.name
+		@builder["label6"].text = @tictactoe.cat.score.to_s
 
 		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
 	end
@@ -45,9 +45,14 @@ class Board
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(2)
 				if @tictactoe.winner != '' then newgame() end
+				#clear all difficulty selectors
 				@builder["checkbutton1"].active = false
 				@builder["checkbutton2"].active = false
 				@builder["checkbutton3"].active = false
+
+				#update player names and status
+				@builder["label4"].text = @tictactoe.player1.name
+				@builder["label3"].text = @tictactoe.player2.name
 				@builder["label5"].text = 'Now playing human. ' + @tictactoe.PrintInstructions()
 			else
 				#toggle back
@@ -65,6 +70,9 @@ class Board
 				if @tictactoe.winner != '' then newgame() end
 				#select easy difficulty by default
 				@builder["checkbutton1"].active = true
+				#update player names
+				@builder["label4"].text = @tictactoe.player1.name
+				@builder["label3"].text = @tictactoe.player2.name
 			else
 				#toggle back
 				@builder["radiobutton1"].active = true
@@ -144,9 +152,9 @@ class Board
 
 	def imagemenuitem2__activate(*argv)
 		@tictactoe.ClearScore()
-		@builder["label6"].text = @tictactoe.player1.score.to_s
+		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
-		@builder["label8"].text = @tictactoe.cat.score.to_s
+		@builder["label6"].text = @tictactoe.cat.score.to_s
 	end
 
 	def imagemenuitem5__activate(*argv)
@@ -242,20 +250,24 @@ class Board
 	end
 
 	def computermove()
-		space = @tictactoe.ComputerMove()
-		@builder["label5"].text = 'Computer chooses ' + space.to_s
-		makemove(space)
+		if @tictactoe.winner == ''
+			space = @tictactoe.ComputerMove()
+			@builder["label5"].text = 'Computer chooses ' + space.to_s
+			makemove(space)
+		end
 	end
 
 	def gameover(winner)
 		@tictactoe.UpdateScore(winner)
 
 		@builder["label5"].text = @tictactoe.PrintWinner()
-		@builder["label6"].text = @tictactoe.player1.score.to_s
+		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
-		@builder["label8"].text = @tictactoe.cat.score.to_s
-
-		@tictactoe.SwapPlayers()
+		@builder["label6"].text = @tictactoe.cat.score.to_s
+		if @tictactoe.player2.type == 'human'
+			#If two people are playing, switch who goes first each game. Do not allow computer to be 'X'
+			@tictactoe.SwapPlayers()
+		end
 	end
 
 
