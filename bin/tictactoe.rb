@@ -146,8 +146,73 @@ class TicTacToe
             @movesuccess = false
         end
     end
-    
-    def ComputerMove()
+
+		def ComputerMove()
+			if @player2.type == 'computer' and @player2.mark == 'O'
+				return ComputerMoveO()
+			elsif @player2.type == 'computer' and @player2.mark == 'X'
+				return ComputerMoveX()
+			end
+		end
+
+		def ComputerMoveX()
+			if @difficulty == 'easy'
+        #Easy computer moves randomly
+        move = RandomMove()
+			elsif @difficulty == 'normal'
+				#Normal computer moves randomly early on, but looks for wins or blocks as the game progresses
+				if @movenum < 3
+				    move = RandomMove()
+				else
+				    #Check for winning move first
+				    move = FindWinningMove()
+				    if move == -1
+					 #No winning move available, try block next
+					move = FindBlockingMove()
+					if move == -1 then
+					    move = RandomMove()
+					end
+				    end
+				end
+			elsif @difficulty == 'hard'
+				#Hard computer knows what move to make in every situation, until cat game is guaranteed
+				case movenum 
+				when 0
+					move = 0
+				when 2
+					case @lastmoveindex
+					when 1,3,5,7
+						move = 4
+					when 2,4,6
+						move = 8
+					else
+						move = 2
+					end
+				when 4
+					move = FindWinningMove()
+					if move == -1
+						move = FindBlockingMove()
+						if move == -1
+							move = 6
+						end
+					end
+				else
+					move = FindWinningMove()
+					if move == -1
+						move = FindBlockingMove()
+						if move == -1
+							move = RandomMove()
+						end
+					end
+				end
+				return move + 1
+			else
+			end
+
+
+		end
+   
+    def ComputerMoveO()
         if @winner == ''
             if @difficulty == 'easy'
                 #Easy computer moves randomly
@@ -158,14 +223,11 @@ class TicTacToe
                     move = RandomMove()
                 else
                     #Check for winning move first
-                    #puts "Checking for win..."
                     move = FindWinningMove()
                     if move == -1
                          #No winning move available, try block next
-                        #puts "Checking for block..."
                         move = FindBlockingMove()
                         if move == -1 then
-                            #puts "Moving randomly..."
                             move = RandomMove()
                         end
                     end
@@ -183,7 +245,7 @@ class TicTacToe
                     if @board[4] == 'X'
                         if @board[0] != '_' and @board[8] != '_'
                             move = 2
-                            elsif @board[2] != '_' and @board[6] != '_'
+                        elsif @board[2] != '_' and @board[6] != '_'
                             move = 0
                         end
                     else
@@ -276,8 +338,8 @@ class TicTacToe
         #Pretend O went in any available square and check for win
         for i in 0..8
             if @board[i] == '_'
-                @board[i] = 'O'
-                if CheckWinner(i+1) == 'O'
+                @board[i] = @player2.mark
+                if CheckWinner(i+1) == @player2.mark
                     @board[i] = '_'
 										@winner = ''
                     return i
@@ -292,9 +354,9 @@ class TicTacToe
         #Pretend X went in any available square and check for win; that space necessitates a block
         for i in 0..8
             if @board[i] == '_'
-                @board[i] = 'X'
+                @board[i] = @player1.mark
                 #CheckWinner returns currentturn, so it will still be O
-                if CheckWinner(i+1) == 'O'
+                if CheckWinner(i+1) == @player2.mark
                     @board[i] = '_'
 										@winner = ''
                     return i
@@ -333,77 +395,40 @@ class TicTacToe
             #However, computer uses this to check for blocks on move 4
             return ''
         else
-            case lastmoveindex / 3
-            #Determine row to check
-            when 0
-                if CheckWinTopRow()
-										@winner = @currentturn
-										return @winner 
-								end
-            when 1
-                if CheckWinCenterRow()
-										@winner = @currentturn
-										return @winner 
-								end
-            when 2
-                if CheckWinBottomRow()
-										@winner = @currentturn
-										return @winner 
-								end
-            end
+            row = lastmoveindex / 3
+            #Determine row to check using integer division
+            if (row == 0 and CheckWinTopRow()) or (row ==1 and CheckWinCenterRow()) or (row == 2 and CheckWinBottomRow())
+								@winner = @currentturn
+						end
             
-            case lastmoveindex % 3
+            column = lastmoveindex % 3
             #Determine column to check
-            when 0
-                if CheckWinLeftColumn()
-										@winner = @currentturn
-										return @winner 
-								end
-            when 1
-                if CheckWinMiddleColumn()
-										@winner = @currentturn
-										return @winner 
-								end
-            when 2
-                if CheckWinRightColumn()
-										@winner = @currentturn
-										return @winner 
-								end
-            end
+            if (column == 0 and CheckWinLeftColumn()) or (column == 1 and CheckWinMiddleColumn()) or (column == 2 and CheckWinRightColumn())
+								@winner = @currentturn
+						end
             
             if lastmoveindex % 2 == 0
                 #Determine diagonals to check
                 if lastmoveindex != 4 and lastmoveindex % 4 == 2
-                    if CheckWinBottomLeftToTopRight()
-												@winner = @currentturn
-												return @winner 
-										end
+                    if CheckWinBottomLeftToTopRight() then @winner = @currentturn end
                 elsif lastmoveindex != 4 and lastmoveindex %4 == 0
-                    if CheckWinTopLeftToBottomRight()
-												@winner = @currentturn
-												return @winner 
-										end
+                    if CheckWinTopLeftToBottomRight() then @winner = @currentturn end
                 elsif lastmoveindex == 4
-                    if CheckWinTopLeftToBottomRight()
-												@winner = @currentturn
-												return @winner 
-										end   
-                    if CheckWinBottomLeftToTopRight()
-												@winner = @currentturn
-												return @winner 
+                    if CheckWinTopLeftToBottomRight() 
+											@winner = @currentturn   
+                    elsif CheckWinBottomLeftToTopRight() 
+											@winner = @currentturn 
 										end
                 end
             end
         end
 
-        if @movenum == 9
+        if @movenum == 9 and @winner == ''
             #Game over, no winner; cat's game
 						@winner = 'C'
-            return 'C'
-        else
-            #Game has not yet been decided
-            return ''
         end
+
+				return @winner
     end
     
     def CheckWinLeftColumn()

@@ -133,6 +133,7 @@ class Board
 	end
 
 	def imagemenuitem1__activate(*argv)
+		#Game -> New
 		newgame()
 	end
 
@@ -148,9 +149,11 @@ class Board
 		@builder["image7"].file = @path + "blank.jpg"
 		@builder["image8"].file = @path + "blank.jpg"
 		@builder["image9"].file = @path + "blank.jpg"
+		if @tictactoe.player2.type == 'computer' and @tictactoe.player2.mark == 'X' then computermove() end
 	end
 
 	def imagemenuitem2__activate(*argv)
+		#Game -> Reset score
 		@tictactoe.ClearScore()
 		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
@@ -158,12 +161,14 @@ class Board
 	end
 
 	def imagemenuitem5__activate(*argv)
+		#Game -> Exit
 		destroy_window()
 	end
 
 	def imagemenuitem6__activate(*argv)
-		#Cannot undo winning move
+		#Edit -> Undo
 		if @tictactoe.winner == ''
+			#Cannot undo winning move
 			lastmoveindex = @tictactoe.GetLastMove()
 			penultimatemoveindex = @tictactoe.GetPenultimateMove()
 			status = @tictactoe.UndoMove()
@@ -269,10 +274,10 @@ class Board
 		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
 		@builder["label6"].text = @tictactoe.cat.score.to_s
-		if @tictactoe.player2.type == 'human'
-			#If two people are playing, switch who goes first each game. Do not allow computer to be 'X'
-			@tictactoe.SwapPlayers()
-		end
+
+		#After each game, alternate who goes first
+		@tictactoe.SwapPlayers()
+
 	end
 
 
