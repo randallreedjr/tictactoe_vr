@@ -44,17 +44,17 @@ class Board
 	def radiobutton1__clicked(*argv)
 		#human opponent
 		if @tictactoe.player2.type != 'human'
-			@builder["checkbutton1"].active = false
-			@builder["checkbutton2"].active = false
-			@builder["checkbutton3"].active = false
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.SelectPlayers(2)
 				if @tictactoe.winner != '' then newgame() end
+				@builder["checkbutton1"].active = false
+				@builder["checkbutton2"].active = false
+				@builder["checkbutton3"].active = false
 				@builder["label5"].text = 'Now playing human'
 			else
 				#toggle back
 				@builder["radiobutton2"].active = true
-				@builder["label5"].text = 'Cannot change difficutly during game'
+				@builder["label5"].text = 'Cannot change opponent during game'
 			end
 		end
 	end
@@ -70,7 +70,7 @@ class Board
 			else
 				#toggle back
 				@builder["radiobutton1"].active = true
-				@builder["label5"].text = 'Cannot change difficutly during game'
+				@builder["label5"].text = 'Cannot change opponent during game'
 			end
 		end
 	end
@@ -79,33 +79,45 @@ class Board
 	def checkbutton1__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
 			@builder["checkbutton1"].active = false
-		elsif @builder["checkbutton1"].active? == true
+		elsif @builder["checkbutton1"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton2"].active = false
 			@builder["checkbutton3"].active = false
 			@tictactoe.SetDifficulty('easy')
 			@builder["label5"].text = 'Now playing computer on easy'
+		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
+			#toggle back
+			@builder["checkbutton1"].active = (@tictactoe.difficulty == 'easy')
+			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
 
 	def checkbutton2__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
 			@builder["checkbutton2"].active = false
-		elsif @builder["checkbutton2"].active? == true
+		elsif @builder["checkbutton2"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton3"].active = false
 			@tictactoe.SetDifficulty('normal')
 			@builder["label5"].text = 'Now playing computer on normal'
+		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
+			#toggle back
+			@builder["checkbutton2"].active = (@tictactoe.difficulty == 'normal')
+			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
 
 	def checkbutton3__clicked(*argv)
 		if @builder["radiobutton2"].active? == false
 			@builder["checkbutton3"].active = false
-		elsif @builder["checkbutton3"].active? == true
+		elsif @builder["checkbutton3"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton2"].active = false
 			@tictactoe.SetDifficulty('hard')
 			@builder["label5"].text = 'Now playing computer on hard'
+		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
+			#toggle back
+			@builder["checkbutton3"].active = (@tictactoe.difficulty == 'hard')
+			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
 
@@ -158,56 +170,60 @@ class Board
 	
 	def button1__clicked(*argv)
 		if makemove(1) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button2__clicked(*argv)
 		if makemove(2) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button3__clicked(*argv)
 		if makemove(3) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button4__clicked(*argv)
 		if makemove(4) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button5__clicked(*argv)
 		if makemove(5) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button6__clicked(*argv)
 		if makemove(6) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button7__clicked(*argv)
 		if makemove(7) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button8__clicked(*argv)
 		if makemove(8) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
 	end
 
 	def button9__clicked(*argv)
 		if makemove(9) and @tictactoe.player2.type == 'computer' then
-			computermove()
+			#computermove()
 		end
+	end
+
+	def button10_clicked(*argv)
+		computermove()
 	end
 
 	def makemove(space)

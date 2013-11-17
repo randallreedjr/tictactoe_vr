@@ -11,6 +11,7 @@ class TicTacToe
     attr_reader :cat
 		attr_reader :board
 		attr_reader :currentturn
+		attr_reader :difficulty
     
     def initialize
         #Set starting values for class variables
