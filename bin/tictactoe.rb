@@ -168,13 +168,17 @@ class TicTacToe
             return "Move cannot be undone"
         else
             if @player2.type=='computer'
-                #Undo computer and player move
-                #Clear 2 moves from board
-                @board[@lastmoveindex] = '_'
-                @board[@penultimatemoveindex] = '_'
-                @lastmoveindex = -1
-                @penultimatemoveindex = -1
-                @movenum -= 2
+								if @player2.mark == 'O' or (@player2.mark == 'X' and @movenum > 1)
+									#Undo computer and player move
+									#Clear 2 moves from board
+									@board[@lastmoveindex] = '_'
+									@board[@penultimatemoveindex] = '_'
+									@lastmoveindex = -1
+									@penultimatemoveindex = -1
+									@movenum -= 2
+								else
+									return "Move cannot be undone"
+								end
             else
                 #Undo player move only
                 #Clear move
