@@ -627,7 +627,7 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton3">
-                            <property name="label" translatable="yes">Hard</property>
+                            <property name="label" translatable="yes">Hard       </property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

@@ -1,8 +1,9 @@
     class Player
         attr_reader :score
         attr_reader :type
-        attr_reader :name
+        attr_accessor :name
         attr_reader :mark
+
         def initialize(type, name, mark)
             @name = name
             @type = type
@@ -17,6 +18,10 @@
         def ClearScore()
             @score = 0
         end
+
+				def DoubleScore()
+						@score = (@score * 2).to_i
+				end
         
         def SwapMark()
             if @mark == 'X' 

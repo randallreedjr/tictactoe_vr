@@ -7,8 +7,9 @@ backup_path: C:/Users/Randall
 tab_spaces: 2
 run_command_line: ruby main.rb
 open_files:
-- C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
 - C:/Users/Randall/visualruby/tictactoe/bin/Board.rb
+- C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
+- C:/Users/Randall/visualruby/tictactoe/bin/player.rb
 open_folders:
 - C:/Users/Randall/visualruby/tictactoe
 - C:/Users/Randall/visualruby/tictactoe/bin
