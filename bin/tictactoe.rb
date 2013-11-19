@@ -76,13 +76,9 @@ class TicTacToe
         end
     end
     
-    def ClearScore(randallmode)
+    def ClearScore
         @player1.ClearScore
-				if randallmode
-					@player2.DoubleScore
-				else
-	        @player2.ClearScore
-				end
+        @player2.ClearScore
         @cat.ClearScore
     end
   
