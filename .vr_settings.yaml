@@ -1,22 +1,18 @@
 --- !ruby/object:VR_ENV
-browser: firefox
-width: 1241
-height: 774
-panel_pos: 544
-backup_path: C:/Users/Randall
-tab_spaces: 2
-run_command_line: ruby tictactoe_randall
+width: 800
+height: 600
+panel_pos: 360
+run_command_line: ruby tictactoe
 open_files:
-- C:/Users/Randall/visualruby/tictactoe/bin/tictactoe.rb
-- C:/Users/Randall/visualruby/tictactoe/tictactoe.gemspec
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/README.md"
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/player.rb"
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/Board.rb"
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/tictactoe.rb"
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/tictactoe"
 open_folders:
-- C:/Users/Randall/visualruby/tictactoe
-- C:/Users/Randall/visualruby/tictactoe/bin
-- C:/Users/Randall/visualruby/tictactoe/bin/glade
-current_file: C:/Users/Randall/visualruby/tictactoe/tictactoe.gemspec
-glade_path: glade-3
-font_name: Monospace 10
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr"
+- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin"
+current_file: "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/Board.rb"
 rdoc_command_line: rdoc -x README
+settings_file_version: 1
 builder: !ruby/object:Gtk::Builder {}
-glade_box: !ruby/object:VR::SimpleComboBoxEntry {}
-browser_box: !ruby/object:VR::SimpleComboBoxEntry {}

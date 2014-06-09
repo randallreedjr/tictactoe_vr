@@ -17,10 +17,10 @@ class Board
 		@image9 = @path + "blank.jpg"
 		@label1 = "Welcome to Tic Tac Toe"
 		#array to store image names; this will make updating the board easier
-		@images = { 'X' => "x.jpg", 'O' => "o.jpg" }
+		@images = { :x => "x.jpg", :o => "o.jpg" }
 		set_glade_all() #populates glade controls with insance variables (i.e. Myclass.label1) 
 
-		newmatch()
+		new_match()
 		show_window() 
 	end	
 
@@ -28,7 +28,7 @@ class Board
 	def radiobutton1__clicked(*argv)
 		if @tictactoe.player2.type != 'human'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
-				@tictactoe.SelectPlayers(2)
+				@tictactoe.select_players(2)
 
 				if @tictactoe.winner != '' then newgame() end
 
@@ -40,10 +40,10 @@ class Board
 				#update player names and status
 				@builder["label4"].text = @tictactoe.player1.name
 				@builder["label3"].text = @tictactoe.player2.name
-				@builder["label5"].text = 'Now playing human. ' + @tictactoe.PrintInstructions()
+				@builder["label5"].text = 'Now playing human. ' + @tictactoe.print_instructions()
 
 				#clear and update scores
-				ResetScore()
+				reset_score()
 			else
 				#toggle back
 				@builder["radiobutton2"].active = true
@@ -56,7 +56,7 @@ class Board
 	def radiobutton2__clicked(*argv)
 		if @tictactoe.player2.type != 'computer'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
-				@tictactoe.SelectPlayers(1)
+				@tictactoe.select_players(1)
 				if @tictactoe.winner != '' then newgame() end
 
 				#select easy difficulty by default
@@ -67,7 +67,7 @@ class Board
 				@builder["label3"].text = @tictactoe.player2.name
 
 				#clear and update scores
-				ResetScore()
+				reset_score()
 			else
 				#toggle back
 				@builder["radiobutton1"].active = true
@@ -84,11 +84,11 @@ class Board
 		elsif @builder["checkbutton1"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton2"].active = false
 			@builder["checkbutton3"].active = false
-			@tictactoe.SetDifficulty('easy')
-			@builder["label5"].text = 'Now playing computer on easy. '+ @tictactoe.PrintInstructions()
+			@tictactoe.set_difficulty(:easy)
+			@builder["label5"].text = 'Now playing computer on easy. '+ @tictactoe.print_instructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
-			@builder["checkbutton1"].active = (@tictactoe.difficulty == 'easy')
+			@builder["checkbutton1"].active = (@tictactoe.difficulty == :easy)
 			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
@@ -101,11 +101,11 @@ class Board
 		elsif @builder["checkbutton2"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton3"].active = false
-			@tictactoe.SetDifficulty('normal')
-			@builder["label5"].text = 'Now playing computer on normal. '+ @tictactoe.PrintInstructions()
+			@tictactoe.set_difficulty(:normal)
+			@builder["label5"].text = 'Now playing computer on normal. '+ @tictactoe.print_instructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
-			@builder["checkbutton2"].active = (@tictactoe.difficulty == 'normal')
+			@builder["checkbutton2"].active = (@tictactoe.difficulty == :normal)
 			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
@@ -118,11 +118,11 @@ class Board
 		elsif @builder["checkbutton3"].active? == true and (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			@builder["checkbutton1"].active = false
 			@builder["checkbutton2"].active = false
-			@tictactoe.SetDifficulty('hard')
-			@builder["label5"].text = 'Now playing computer on hard. '+ @tictactoe.PrintInstructions()
+			@tictactoe.set_difficulty(:hard)
+			@builder["label5"].text = 'Now playing computer on hard. '+ @tictactoe.print_instructions()
 		elsif not (@tictactoe.movenum == 0 or @tictactoe.winner != '')
 			#toggle back
-			@builder["checkbutton3"].active = (@tictactoe.difficulty == 'hard')
+			@builder["checkbutton3"].active = (@tictactoe.difficulty == :hard)
 			@builder["label5"].text = 'Cannot change difficulty during game'
 		end
 	end
@@ -130,12 +130,12 @@ class Board
 	#Menu options
 	def imagemenuitem1__activate(*argv)
 		#Game -> New
-		newgame()
+		new_game()
 	end
 
 	def imagemenuitem2__activate(*argv)
 		#Game -> Reset score
-		ResetScore()
+		reset_score()
 	end
 
 	def imagemenuitem5__activate(*argv)
@@ -147,9 +147,9 @@ class Board
 		#Edit -> Undo
 		if @tictactoe.winner == ''
 			#Cannot undo winning move
-			lastmoveindex = @tictactoe.GetLastMove()
-			penultimatemoveindex = @tictactoe.GetPenultimateMove()
-			status = @tictactoe.UndoMove()
+			lastmoveindex = @tictactoe.get_last_move()
+			penultimatemoveindex = @tictactoe.get_penultimate_move()
+			status = @tictactoe.undo_move()
 			@builder["label5"].text = status
 			if status == 'Move undone'
 				@builder["image" + (lastmoveindex+1).to_s].file = @path + "blank.jpg"
@@ -170,65 +170,65 @@ class Board
 	
 	#Move buttons 1 - 9
 	def button1__clicked(*argv)
-		if makemove(1) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(1) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button2__clicked(*argv)
-		if makemove(2) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(2) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button3__clicked(*argv)
-		if makemove(3) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(3) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button4__clicked(*argv)
-		if makemove(4) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(4) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button5__clicked(*argv)
-		if makemove(5) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(5) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button6__clicked(*argv)
-		if makemove(6) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(6) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button7__clicked(*argv)
-		if makemove(7) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(7) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button8__clicked(*argv)
-		if makemove(8) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(8) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 	def button9__clicked(*argv)
-		if makemove(9) and @tictactoe.player2.type == 'computer' then
-			computermove()
+		if make_move(9) and @tictactoe.player2.type == 'computer' then
+			computer_move()
 		end
 	end
 
 
 private
 
-	def newmatch()
+	def new_match()
 		@tictactoe = TicTacToe.new()
-		@tictactoe.SelectPlayers(2)
+		@tictactoe.select_players(2)
 		@builder["label4"].text = @tictactoe.player1.name
 		@builder["label8"].text = @tictactoe.player1.score.to_s
 
@@ -238,12 +238,12 @@ private
 		@builder["label2"].text = @tictactoe.cat.name
 		@builder["label6"].text = @tictactoe.cat.score.to_s
 
-		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
+		@builder["label5"].text = 'New game - ' + @tictactoe.print_instructions()
 	end
 
-	def newgame()
-		@tictactoe.Reset()
-		@builder["label5"].text = 'New game - ' + @tictactoe.PrintInstructions()
+	def new_game()
+		@tictactoe.reset()
+		@builder["label5"].text = 'New game - ' + @tictactoe.print_instructions()
 		@builder["image1"].file = @path + "blank.jpg"
 		@builder["image2"].file = @path + "blank.jpg"
 		@builder["image3"].file = @path + "blank.jpg"
@@ -253,25 +253,25 @@ private
 		@builder["image7"].file = @path + "blank.jpg"
 		@builder["image8"].file = @path + "blank.jpg"
 		@builder["image9"].file = @path + "blank.jpg"
-		if @tictactoe.player2.type == 'computer' and @tictactoe.player2.mark == 'X' then computermove() end
+		if @tictactoe.player2.type == 'computer' and @tictactoe.player2.mark == :x then computer_move() end
 	end
 
-	def ResetScore()
-		@tictactoe.ClearScore()
+	def reset_score()
+		@tictactoe.clear_score()
 		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
 		@builder["label6"].text = @tictactoe.cat.score.to_s
 	end
 
-	def makemove(space)
-		if @tictactoe.SpaceAvailable(space)
+	def make_move(space)
+		if @tictactoe.space_available(space)
 			@builder["image"+space.to_s].file = @path + @images[@tictactoe.currentturn]
-			@tictactoe.MakeMove(space)
-			winner = @tictactoe.CheckWinner(space)
+			@tictactoe.make_move(space)
+			winner = @tictactoe.check_winner(space)
 			if winner == ''
-					@tictactoe.SwapTurn()
+					@tictactoe.swap_turn()
 			else
-					gameover(winner)
+					game_over(winner)
 			end
 			return true
 		else
@@ -279,24 +279,23 @@ private
 		end
 	end
 
-	def computermove()
+	def computer_move()
 		if @tictactoe.winner == ''
-			space = @tictactoe.ComputerMove()
+			space = @tictactoe.computer_move()
 			@builder["label5"].text = 'Computer chooses ' + space.to_s
-			makemove(space)
+			make_move(space)
 		end
 	end
 
-	def gameover(winner)
-		@tictactoe.UpdateScore(winner)
+	def game_over(winner)
+		@tictactoe.update_score(winner)
 
-		@builder["label5"].text = @tictactoe.PrintWinner()
+		@builder["label5"].text = @tictactoe.print_winner()
 		@builder["label8"].text = @tictactoe.player1.score.to_s
 		@builder["label7"].text = @tictactoe.player2.score.to_s
 		@builder["label6"].text = @tictactoe.cat.score.to_s
-
 		#After each game, alternate who goes first
-		@tictactoe.SwapPlayers()
+		@tictactoe.swap_players()
 
 	end
 

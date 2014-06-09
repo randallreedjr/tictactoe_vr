@@ -3,6 +3,7 @@
         attr_reader :type
         attr_reader :name
         attr_reader :mark
+
         def initialize(type, name, mark)
             @name = name
             @type = type
@@ -10,23 +11,23 @@
             @mark = mark
         end
         
-        def AddScore()
+        def add_score()
             @score += 1
         end
         
-        def ClearScore()
+        def clear_score()
             @score = 0
         end
         
-        def SwapMark()
-            if @mark == 'X' 
-                @mark = 'O'
+        def swap_mark()
+            if @mark == :x
+                @mark = :o
             else
-                @mark = 'X'
+                @mark = :x
             end
         end
         
-        def Print()
-            print name + ", type: " + type + ", score: " + score.to_s
+        def print()
+            print "#{@name}, type: #{@type}, score: #{@score}"
         end
     end
