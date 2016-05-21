@@ -1,18 +1,14 @@
 --- !ruby/object:VR_ENV
-width: 800
-height: 600
+width: 1113
+height: 666
 panel_pos: 360
 run_command_line: ruby tictactoe
 open_files:
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/README.md"
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/player.rb"
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/Board.rb"
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/tictactoe.rb"
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/tictactoe"
+- "/home/eric/visualruby/tictactoe/tictactoe.gemspec"
+- "/home/eric/visualruby/tictactoe/README.md"
 open_folders:
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr"
-- "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin"
-current_file: "/Users/rcrjr/Flatiron/Prework/tictactoe_vr/bin/Board.rb"
+- "/home/eric/visualruby/tictactoe"
+current_file: "/home/eric/visualruby/tictactoe/README.md"
 rdoc_command_line: rdoc -x README
 settings_file_version: 1
 builder: !ruby/object:Gtk::Builder {}
