@@ -17,9 +17,4 @@ class ModalWindow #(change name)
 
 	include GladeGUI
 
-	def show(parent)
-		load_glade(__FILE__, parent)
-		show_window()
-	end	
-
 end

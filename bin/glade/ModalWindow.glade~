@@ -8,6 +8,7 @@
     <property name="title" translatable="yes">About Tic Tac Toe</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
+    <signal name="destroy" handler="destroy_window" swapped="no"/>
     <child>
       <object class="GtkHBox" id="hbox1">
         <property name="visible">True</property>
