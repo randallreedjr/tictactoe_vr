@@ -2,10 +2,8 @@ class Board
 
 	include GladeGUI
 
-	def show()
+	def initialize()
 		@path = File.dirname(__FILE__) + "/"
-
-		load_glade(__FILE__)  #loads file, glade/MyClass.glade into @builder
 		@image1 = @path + "blank.jpg"
 		@image2 = @path + "blank.jpg"
 		@image3 = @path + "blank.jpg"
@@ -18,11 +16,13 @@ class Board
 		@label1 = "Welcome to Tic Tac Toe"
 		#array to store image names; this will make updating the board easier
 		@images = { :x => "x.jpg", :o => "o.jpg" }
-		set_glade_all() #populates glade controls with insance variables (i.e. Myclass.label1) 
-
-		new_match()
-		show_window() 
 	end	
+  
+  # Called after init and before window1.show
+  def before_show()
+		new_match()
+  end
+
 
 	#Human opponent
 	def radiobutton1__clicked(*argv)
@@ -57,7 +57,7 @@ class Board
 		if @tictactoe.player2.type != 'computer'
 			if @tictactoe.movenum == 0 or @tictactoe.winner != ''
 				@tictactoe.select_players(1)
-				if @tictactoe.winner != '' then newgame() end
+				if @tictactoe.winner != '' then new_match() end
 
 				#select easy difficulty by default
 				@builder["checkbutton1"].active = true
@@ -140,7 +140,7 @@ class Board
 
 	def imagemenuitem5__activate(*argv)
 		#Game -> Exit
-		destroy_window()
+		@builder[:window1].destroy
 	end
 
 	def imagemenuitem6__activate(*argv)
@@ -164,8 +164,10 @@ class Board
 
 	def imagemenuitem10__activate(*argv)
 		#Help -> About
-		modal_win = ModalWindow.new 
-		modal_win.show(self)
+		alert "Created by Randall Reed in 2013 using VisualRuby, a Ruby GUI builder. To create your own Ruby GUIs, visit visualruby.net.",
+        parent: self,
+        headline: "Tic Tac Toe 0.0.1",
+        width: 300
 	end
 	
 	#Move buttons 1 - 9
