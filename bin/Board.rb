@@ -164,7 +164,10 @@ class Board
 
 	def imagemenuitem10__activate(*argv)
 		#Help -> About
-		modal_win = ModalWindow.new.show_glade(self) 
+		alert "Created by Randall Reed in 2013 using VisualRuby, a Ruby GUI builder. To create your own Ruby GUIs, visit visualruby.net.",
+        parent: self,
+        headline: "Tic Tac Toe 0.0.1",
+        width: 300
 	end
 	
 	#Move buttons 1 - 9
